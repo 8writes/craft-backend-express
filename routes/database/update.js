@@ -17,14 +17,17 @@ const handleUpdate = async (req, res) => {
     const store_name_id = req.query.store_name_id
     const store_order_id = req.query.store_order_id
 
-    const { editOrderStatus, editPrice, editStock, editProductId, editOrderId } = req.body
+    const { editOrderStatus, editPrice, editStock, editSize, editName, editProductId, editOrderId } = req.body
 
   try {
+
     const { data, error } = await supabase
       .from(store_name_id || store_order_id)
       .update({
         price: editPrice,
         stock: editStock,
+        name: editName,
+        size: editSize,
         status: editOrderStatus,
       })
       .eq('id', editProductId || editOrderId)
