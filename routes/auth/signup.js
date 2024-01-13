@@ -213,6 +213,7 @@ const handleSignup = async (req, res) => {
       store_name_id: `${storeName}_product_partition`,
       store_order_id: `${storeName}_order_partition`,
       store_bucket_id: `${storeName}_bucket_partition`,
+      store_url: `${storeName}.craaft.shop`
     })
 
     if (storeUserResult.error) {
