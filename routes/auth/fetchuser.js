@@ -13,7 +13,7 @@ const handleErrorResponse = (res, message) => {
 
 const handleUser = async (req, res) => {
   const supabase = createClient({ req, res })
-  const {id} = req.body
+  const id = req.query.id; 
   
     try {
       // Get user data using the user_id
