@@ -9,12 +9,17 @@ const { createClient } = require('../../lib/supabase')
 
 // Initialize PostgreSQL pool
 const pool = new Pool({
-  user: 'postgres',
-  host: 'db.hymcbwrcksuwhtfstztz.supabase.co',
+  user: 'postgres.hymcbwrcksuwhtfstztz',
+  host: 'aws-0-eu-west-2.pooler.supabase.com',
   database: 'postgres',
   password: 'Ozoemena12@',
   port: 5432,
 })
+
+const handleErrorResponse = (res, errorMessage) => {
+  console.error(errorMessage)
+  return res.status(500).json({ error: errorMessage })
+}
 
 const createBucketPolicy = async ({ storeName }) => {
   // Create Row-Level Security (RLS) policy
@@ -167,15 +172,10 @@ const createOrderPolicy = async ({ storeName }) => {
   return { rlsQueryResult }
 }
 
-const handleErrorResponse = (res, errorMessage) => {
-  console.error(errorMessage)
-  return res.status(500).json({ error: errorMessage })
-}
-
 const handleSignup = async (req, res) => {
   const supabase = createClient({ req, res })
 
-  const { email, password, firstName, lastName, storeName } = req.body
+  const { email, password, firstName, lastName, storeName, tel } = req.body
 
   // store user
 
@@ -184,6 +184,7 @@ const handleSignup = async (req, res) => {
     const signUp = await supabase.auth.signUp({
       email,
       password,
+      phone: tel,
       options: {
         data: {
           first_name: firstName,
@@ -197,7 +198,7 @@ const handleSignup = async (req, res) => {
       return res.status(400).json({ error: signUp.error.message })
     }
 
-    const userId = signUp.data.user.id;
+    const userId = signUp.data.user.id
 
     const storeUserResult = await supabase.from('users').insert({
       id: userId,
@@ -205,15 +206,16 @@ const handleSignup = async (req, res) => {
       first_name: firstName,
       last_name: lastName,
       email,
-      trial: false,
-      subscription: 'Free',
+      tel,
+      trial: true,
+      subscription: 'Trial',
       plan_amount: '0',
-      product_count: '0',
+      product_count: '26',
       plan_validity: 'Lifetime',
       store_name_id: `${storeName}_product_partition`,
       store_order_id: `${storeName}_order_partition`,
       store_bucket_id: `${storeName}_bucket_partition`,
-      store_url: `${storeName}.craaft.shop`
+      store_url: `${storeName}.craaft.shop`,
     })
 
     if (storeUserResult.error) {
@@ -290,7 +292,6 @@ const handleSignup = async (req, res) => {
   }
 }
 
-// Define a route for the signup API
 router.post('/', handleSignup)
 
 module.exports = router
