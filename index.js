@@ -22,7 +22,7 @@ const app = express();
 // Use middleware to enable CORS
 app.use(
   cors({
-    origin: ['https://craaft.shop', 'https://craaft.com.ng', 'https://app.craaft.com.ng', 'http://localhost:3000'],
+    origin: ['https://craaft.shop', 'https://craaft.com.ng', 'https://app.craaft.com.ng', 'http://localhost:3000', /\.craaft\.shop$/,],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
     optionsSuccessStatus: 204,
