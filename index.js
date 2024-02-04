@@ -20,7 +20,14 @@ const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } });
 const app = express();
 
 // Use middleware to enable CORS
-app.use(cors());
+app.use(
+  cors({
+    origin: ['https://craaft.shop', 'https://craaft.com.ng', 'https://app.craaft.com.ng', 'http://localhost:3000'],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    optionsSuccessStatus: 204,
+  })
+);
 
 // Use middleware to parse JSON requests
 app.use(bodyParser.json());
