@@ -19,39 +19,14 @@ const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } });
 
 const app = express();
 
-const dynamicCors = (req, res, next) => {
-  const allowedOrigins = [
-    'https://craaft.com.ng',
-    'https://craaft.shop',
-    'http://localhost:3000',
-    'https://app.craaft.com.ng',
-  ];
-
-  const origin = req.headers.origin;
-
-  if (allowedOrigins.some(allowed => origin.includes(allowed))) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-  } else {
-    const subdomainRegex = /^https:\/\/([a-zA-Z0-9-]+)\.craaft\.shop$/;
-    const matches = origin.match(subdomainRegex);
-
-    if (matches && matches.length === 2) {
-      res.setHeader('Access-Control-Allow-Origin', origin);
-    }
-  }
-
-  res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');
-  res.header('Access-Control-Allow-Credentials', true);
-  res.header('Access-Control-Expose-Headers', 'Content-Disposition');
-
-  if (req.method === 'OPTIONS') {
-    res.sendStatus(204);
-  } else {
-    next();
-  }
+// Use middleware to enable CORS
+const corsOptions = {
+  origin: ['https://craaft.com.ng', 'https://craaft.shop', 'http://localhost:3000', 'https://app.craaft.com.ng',],
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  optionsSuccessStatus: 204,
 };
-
-app.use(dynamicCors);
+app.use(cors(corsOptions));
 
 // Use middleware to parse JSON requests
 app.use(bodyParser.json());
