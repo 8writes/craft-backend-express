@@ -23,7 +23,7 @@ const app = express();
 app.use(
   cors({
     origin: ['https://craaft.shop', 'https://craaft.com.ng', 'https://app.craaft.com.ng', 'http://localhost:3001', /\.craaft\.shop$/,],
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    methods: 'GET,HEAD,PUT,PATCH,POST,UPDATE,DELETE',
     credentials: true,
     optionsSuccessStatus: 204,
   })
