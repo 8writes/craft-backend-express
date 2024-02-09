@@ -211,8 +211,7 @@ const handleSignup = async (req, res) => {
       trial: true,
       subscription: 'Trial',
       plan_amount: '0',
-      product_count: '26',
-      plan_validity: 'Lifetime',
+      plan_validity: '14',
       store_name_id: `${storeName}_product_partition`,
       store_order_id: `${storeName}_order_partition`,
       store_bucket_id: `${storeName}_bucket_partition`,
@@ -220,6 +219,7 @@ const handleSignup = async (req, res) => {
     })
 
     if (storeUserResult.error) {
+      console.error(storeUserResult.error)
       return res.status(400).json({ error: storeUserResult.error.message })
     }
 
