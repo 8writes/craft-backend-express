@@ -74,6 +74,7 @@ const createProductTable = async ({ storeName }) => {
       tag TEXT,
       email TEXT,
       stock TEXT,
+      color TEXT,
       date DATE,
       uploaded_image_urls TEXT[]
     );
