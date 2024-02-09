@@ -70,12 +70,12 @@ const createProductTable = async ({ storeName }) => {
       name TEXT NULL,
       description TEXT,
       price NUMERIC,
-      size TEXT[],
-      tag TEXT,
       email TEXT,
       stock TEXT,
-      color TEXT,
+      size TEXT[],
+      color TEXT[],
       date DATE,
+      tag TEXT,
       uploaded_image_urls TEXT[]
     );
   `)
